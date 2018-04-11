@@ -22,6 +22,9 @@ namespace Webapp.Models
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
         public ISet<Category> Categories { get; set; }
+        public ISet<Customer> WaitList { get; set; }
+        public ISet<Tape> Tapes { get; set; }
+        public ISet<Actor> Actors { get; set; }
         public DateTime Created { get; set; }
     }
 }

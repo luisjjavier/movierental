@@ -37,6 +37,7 @@ namespace Webapp.Models
             Rentals = Set<Rental>();
             Categories = Set<Category>();
             Payments = Set<Payment>();
+            Actors = Set<Actor>();
             Customers = Set<Customer>();
         }
 
@@ -69,5 +70,6 @@ namespace Webapp.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Actor>Actors { get; set; }
     }
 }

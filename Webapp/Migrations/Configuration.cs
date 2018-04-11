@@ -1,3 +1,5 @@
+using Webapp.Models;
+
 namespace Webapp.Migrations
 {
     using System.Data.Entity.Migrations;
@@ -23,6 +25,33 @@ namespace Webapp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            context.Languages.Add(new Language()
+            {
+                Name = "English"
+            });
+
+            context.Languages.Add(new Language()
+            {
+                Name = "Español"
+            });
+
+            context.Categories.Add(new Category()
+            {
+                Name = "Terror"
+            });
+
+            context.Categories.Add(new Category()
+            {
+                Name = "Suspenso"
+            });
+
+            context.Categories.Add(new Category()
+            {
+                Name = "Accion"
+            });
+
+            context.SaveChanges();
         }
     }
 }

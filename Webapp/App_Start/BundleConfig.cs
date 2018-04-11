@@ -25,6 +25,8 @@ namespace Webapp
             bundles.Add(new StyleBundle(@"~/Content/css").Include(
                       "~/Content/vendor/bootstrap/css/bootstrap.css",
                       "~/Content/vendor/metisMenu/metisMenu.min.css",
+                      "~/Content/vendor/datatables-plugins/dataTables.bootstrap.css",
+                      "~/Content/vendor/datatables-responsive/dataTables.responsive.css",
                       "~/Content/dist/css/sb-admin-2.css",
                      "~/Content/vendor/font-awesome/css/font-awesome.min.css",
                       "~/Content/site.css"));
@@ -32,7 +34,12 @@ namespace Webapp
             bundles.Add(new ScriptBundle("~/bundles/pagescripts").Include(
                 "~/Content/vendor/metisMenu/metisMenu.js",
                 "~/Content/dist/js/sb-admin-2.js"));
-               
+
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                "~/Content/vendor/datatables/js/jquery.dataTables.js",
+                "~/Content/vendor/datatables-plugins/dataTables.bootstrap.js",
+                "~/Content/vendor/datatables-responsive/dataTables.responsive.js",
+                "~/Scripts/respond.js"));
         }
     }
 }

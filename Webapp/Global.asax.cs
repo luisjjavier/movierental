@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AutoMapper;
+using Webapp.Models;
 
 namespace Webapp
 {
@@ -12,6 +14,9 @@ namespace Webapp
     {
         protected void Application_Start()
         {
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<Actor, ActorViewModel>().ReverseMap();
+            });
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

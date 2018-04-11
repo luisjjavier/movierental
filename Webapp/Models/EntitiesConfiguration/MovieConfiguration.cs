@@ -31,6 +31,15 @@ namespace Webapp.Models.EntitiesConfiguration
             HasRequired(movie => movie.ApplicationUser)
                 .WithMany(la => la.Movies)
                 .HasForeignKey(movie => movie.ApplicationUserId);
+
+            HasMany(movie => movie.Actors)
+                .WithMany(c => c.Movies)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("MovieId");
+                    cs.MapRightKey("ActorId");
+                    cs.ToTable("ActorsMovie");
+                });
         }
     }
 }

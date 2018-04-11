@@ -8,14 +8,16 @@ namespace Webapp.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Categories",
+                "dbo.Actors",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(maxLength: 600, unicode: false),
+                        ImageUrl = c.String(maxLength: 600, unicode: false),
+                        NickName = c.String(maxLength: 600, unicode: false),
+                        Created = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Movies",
@@ -117,8 +119,11 @@ namespace Webapp.Migrations
                         Phone = c.String(maxLength: 600, unicode: false),
                         Created = c.DateTime(nullable: false),
                         Active = c.Boolean(nullable: false),
+                        Movie_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Movies", t => t.Movie_Id)
+                .Index(t => t.Movie_Id);
             
             CreateTable(
                 "dbo.Rentals",
@@ -155,6 +160,16 @@ namespace Webapp.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(maxLength: 600, unicode: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true);
+            
+            CreateTable(
                 "dbo.Languages",
                 c => new
                     {
@@ -165,6 +180,17 @@ namespace Webapp.Migrations
                 .Index(t => t.Name, unique: true);
             
             CreateTable(
+                "dbo.Tapes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        MovieId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Movies", t => t.MovieId, cascadeDelete: true)
+                .Index(t => t.MovieId);
+            
+            CreateTable(
                 "dbo.role",
                 c => new
                     {
@@ -173,6 +199,19 @@ namespace Webapp.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
+                "dbo.ActorsMovie",
+                c => new
+                    {
+                        MovieId = c.Int(nullable: false),
+                        ActorId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.MovieId, t.ActorId })
+                .ForeignKey("dbo.Movies", t => t.MovieId, cascadeDelete: true)
+                .ForeignKey("dbo.Actors", t => t.ActorId, cascadeDelete: true)
+                .Index(t => t.MovieId)
+                .Index(t => t.ActorId);
             
             CreateTable(
                 "dbo.MovieCategories",
@@ -192,6 +231,8 @@ namespace Webapp.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.userrole", "RoleId", "dbo.role");
+            DropForeignKey("dbo.Customers", "Movie_Id", "dbo.Movies");
+            DropForeignKey("dbo.Tapes", "MovieId", "dbo.Movies");
             DropForeignKey("dbo.Movies", "OriginalLanguageId", "dbo.Languages");
             DropForeignKey("dbo.Movies", "LanguageId", "dbo.Languages");
             DropForeignKey("dbo.MovieCategories", "CustomerId", "dbo.Categories");
@@ -206,16 +247,23 @@ namespace Webapp.Migrations
             DropForeignKey("dbo.Payments", "ApplicationUserId", "dbo.user");
             DropForeignKey("dbo.userlogin", "UserId", "dbo.user");
             DropForeignKey("dbo.userclaim", "UserId", "dbo.user");
+            DropForeignKey("dbo.ActorsMovie", "ActorId", "dbo.Actors");
+            DropForeignKey("dbo.ActorsMovie", "MovieId", "dbo.Movies");
             DropIndex("dbo.MovieCategories", new[] { "CustomerId" });
             DropIndex("dbo.MovieCategories", new[] { "MovieId" });
+            DropIndex("dbo.ActorsMovie", new[] { "ActorId" });
+            DropIndex("dbo.ActorsMovie", new[] { "MovieId" });
             DropIndex("dbo.role", "RoleNameIndex");
+            DropIndex("dbo.Tapes", new[] { "MovieId" });
             DropIndex("dbo.Languages", new[] { "Name" });
+            DropIndex("dbo.Categories", new[] { "Name" });
             DropIndex("dbo.userrole", new[] { "RoleId" });
             DropIndex("dbo.userrole", new[] { "UserId" });
             DropIndex("dbo.Rentals", new[] { "RentMovieId" });
             DropIndex("dbo.Rentals", new[] { "PaymentId" });
             DropIndex("dbo.Rentals", new[] { "ApplicationUserId" });
             DropIndex("dbo.Rentals", new[] { "CustomerId" });
+            DropIndex("dbo.Customers", new[] { "Movie_Id" });
             DropIndex("dbo.Payments", new[] { "ApplicationUserId" });
             DropIndex("dbo.Payments", new[] { "CustomerId" });
             DropIndex("dbo.userlogin", new[] { "UserId" });
@@ -225,10 +273,12 @@ namespace Webapp.Migrations
             DropIndex("dbo.Movies", new[] { "OriginalLanguageId" });
             DropIndex("dbo.Movies", new[] { "LanguageId" });
             DropIndex("dbo.Movies", new[] { "Title" });
-            DropIndex("dbo.Categories", new[] { "Name" });
             DropTable("dbo.MovieCategories");
+            DropTable("dbo.ActorsMovie");
             DropTable("dbo.role");
+            DropTable("dbo.Tapes");
             DropTable("dbo.Languages");
+            DropTable("dbo.Categories");
             DropTable("dbo.userrole");
             DropTable("dbo.Rentals");
             DropTable("dbo.Customers");
@@ -237,7 +287,7 @@ namespace Webapp.Migrations
             DropTable("dbo.userclaim");
             DropTable("dbo.user");
             DropTable("dbo.Movies");
-            DropTable("dbo.Categories");
+            DropTable("dbo.Actors");
         }
     }
 }
