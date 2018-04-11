@@ -10,111 +10,111 @@ using Webapp.Models;
 namespace Webapp.Controllers
 {
     [Authorize]
-    public class ActorsController : Controller
+    public class CustomersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Actors
+        // GET: Customers
         public ActionResult Index()
         {
-            var actors  = db.Actors.ToList();
-            return View(Mapper.Map<List<ActorViewModel>>(actors));
+            var customers = Mapper.Map<List<CustomerViewModel>>(db.Customers.ToList());
+            return View(customers);
         }
 
-        // GET: Actors/Details/5
+        // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Actor actor = db.Actors.Find(id);
-            if (actor == null)
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            var actorViewModel = Mapper.Map<ActorViewModel>(actor);
-            return View(actorViewModel);
+            return View(customer);
         }
 
-        // GET: Actors/Create
+        // GET: Customers/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Actors/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( ActorViewModel actorViewModel)
+        public ActionResult Create(CustomerViewModel customerViewModel)
         {
             if (ModelState.IsValid)
             {
-               var actor  = Mapper.Map<Actor>(actorViewModel);
-                actor.Created = DateTime.Now;
-                db.Actors.Add(actor);
+                var customer = Mapper.Map<Customer>(customerViewModel);
+                customer.Active = true;
+                customer.Created = DateTime.Now;;
+                db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(actorViewModel);
+            return View(customerViewModel);
         }
 
-        // GET: Actors/Edit/5
+        // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Actor actor = db.Actors.Find(id);
-            if (actor == null)
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(actor);
+            return View(customer);
         }
 
-        // POST: Actors/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ImageUrl,NickName,Created")] Actor actor)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,Address,Phone,Created,Active")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(actor).State = EntityState.Modified;
+                db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(actor);
+            return View(customer);
         }
 
-        // GET: Actors/Delete/5
+        // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Actor actor = db.Actors.Find(id);
-            if (actor == null)
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(actor);
+            return View(customer);
         }
 
-        // POST: Actors/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Actor actor = db.Actors.Find(id);
-            db.Actors.Remove(actor);
+            Customer customer = db.Customers.Find(id);
+            db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

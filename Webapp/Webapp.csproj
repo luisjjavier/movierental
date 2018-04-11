@@ -195,8 +195,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActorsController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -210,6 +212,7 @@
     <Compile Include="Models\ActorViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\EntitiesConfiguration\CustomerConfiguration.cs" />
     <Compile Include="Models\EntitiesConfiguration\MovieConfiguration.cs" />
     <Compile Include="Models\EntitiesConfiguration\PaymentConfiguration.cs" />
@@ -218,6 +221,7 @@
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\MovieViewModel.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\Tape.cs" />
@@ -420,16 +424,21 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
-    <Content Include="Views\Customers\Edit.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Actors\Create.cshtml" />
     <Content Include="Views\Actors\Delete.cshtml" />
     <Content Include="Views\Actors\Details.cshtml" />
     <Content Include="Views\Actors\Edit.cshtml" />
     <Content Include="Views\Actors\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Movies\Create.cshtml" />
+    <Content Include="Views\Movies\Delete.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
+    <Content Include="Views\Movies\Edit.cshtml" />
+    <Content Include="Views\Movies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,10 +1,14 @@
 ﻿@model Webapp.Models.Actor
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Actualizar";
 }
-
-<h2>Edit</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">actualizar al  actor <a href="@Url.Action("Index")" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> volver a la lista</a></h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
 
 
 @using (Html.BeginForm())
@@ -57,9 +61,6 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Volver a la lista", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
