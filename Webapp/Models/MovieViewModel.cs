@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Webapp.Models
 {
@@ -48,6 +50,10 @@ namespace Webapp.Models
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "El usuario creador es requerido")]
+        [DisplayName("Usuario")]
         public string ApplicationUserId { get; set; }
+
+        [DisplayName("Actores")]
+        public List<int> ActorsId { get; set; }
     }
 }

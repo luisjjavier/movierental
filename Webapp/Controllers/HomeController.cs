@@ -12,6 +12,7 @@ namespace Webapp.Controllers
         {
             ViewBag.ActorsCount = db.Actors.Count();
             ViewBag.CustomerCount = db.Customers.Count();
+            ViewBag.MoviesCount = db.Movies.Count();
             return View();
         }
 

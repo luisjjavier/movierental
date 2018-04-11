@@ -71,5 +71,7 @@ namespace Webapp.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Actor>Actors { get; set; }
+
+        public System.Data.Entity.DbSet<Webapp.Models.Tape> Tapes { get; set; }
     }
 }

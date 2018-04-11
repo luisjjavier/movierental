@@ -16,7 +16,10 @@ namespace Webapp.Controllers
         // GET: Movies
         public ActionResult Index()
         {
-            var movies = db.Movies.Include(m => m.ApplicationUser).Include(m => m.Language).Include(m => m.OrginalLanguage);
+            var movies = db.Movies.Include(m => m.ApplicationUser)
+                .Include(m => m.Language)
+                .Include(m => m.OrginalLanguage);
+               
 
             var moviesViewModel = Mapper.Map<List<MovieViewModel>>(movies.ToList());
             return View(moviesViewModel);
@@ -43,6 +46,7 @@ namespace Webapp.Controllers
             ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
             ViewBag.LanguageId = new SelectList(db.Languages, "Id", "Name");
             ViewBag.OriginalLanguageId = new SelectList(db.Languages, "Id", "Name");
+            ViewBag.Actors =  new SelectList(db.Actors, "Id", "Name");
             return View();
         }
 
@@ -55,8 +59,12 @@ namespace Webapp.Controllers
         {
             if (ModelState.IsValid)
             {
+              var actors=  from employee in db.Actors
+                    where movieViewModel.ActorsId.Contains(employee.Id)
+                    select employee;
                 var movie = Mapper.Map<Movie>(movieViewModel);
                 movie.Created = DateTime.Now;
+                movie.Actors = new System.Collections.Generic.HashSet<Actor>(actors.ToList());
                 db.Movies.Add(movie);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -65,6 +73,7 @@ namespace Webapp.Controllers
             ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", movieViewModel.ApplicationUserId);
             ViewBag.LanguageId = new SelectList(db.Languages, "Id", "Name", movieViewModel.LanguageId);
             ViewBag.OriginalLanguageId = new SelectList(db.Languages, "Id", "Name", movieViewModel.OriginalLanguageId);
+            ViewBag.Actors = new SelectList(db.Actors, "Id", "Name");
             return View(movieViewModel);
         }
 
