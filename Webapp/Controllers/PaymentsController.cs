@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -37,6 +38,8 @@ namespace Webapp.Controllers
         {
             ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName");
+            ViewBag.RentMovieId = new SelectList(db.Movies, "Id", "Title");
+
             return View();
         }
 
@@ -45,8 +48,16 @@ namespace Webapp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CustomerId,ApplicationUserId,TotalAmount,PaymentDate")] Payment payment)
+        public ActionResult Create( Payment payment)
         {
+            payment.PaymentDate = DateTime.Now;
+            
+            payment.Rentals.ForEach(item =>
+            {
+                item.CustomerId = payment.CustomerId;
+                item.ApplicationUserId = payment.ApplicationUserId;
+            });
+
             if (ModelState.IsValid)
             {
                 db.Payments.Add(payment);
@@ -56,6 +67,8 @@ namespace Webapp.Controllers
 
             ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", payment.ApplicationUserId);
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", payment.CustomerId);
+            ViewBag.RentMovieId = new SelectList(db.Movies, "Id", "Title");
+
             return View(payment);
         }
 
@@ -118,6 +131,13 @@ namespace Webapp.Controllers
             db.Payments.Remove(payment);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public PartialViewResult createRent(Rental rent)
+        {
+           ViewBag.Movie =  db.Movies.Find(rent.RentMovieId);
+            return PartialView(rent);
         }
 
         protected override void Dispose(bool disposing)

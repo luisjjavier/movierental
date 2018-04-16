@@ -1,0 +1,17 @@
+﻿@model Webapp.Models.Rental
+@{
+    var guid = Guid.NewGuid().ToString();
+    var movie = ViewBag.Movie;
+    }
+
+<tr id="@guid">
+    <input type="hidden" name="Rentals.index" value="@guid"/>
+    <input type="hidden" name="Rentals[@guid].RentMovieId" value="@movie.Id"/>
+    <input type="hidden" name="Rentals[@guid].ReturnDate" value="@Model.ReturnDate"/>
+    <td>@movie.Title</td>
+    <td class="rowDataSd">@movie.Price</td>
+    <td>@Model.ReturnDate</td>
+    <td>
+        <a href="#" onclick="deleteRow('@guid')" class="btn btn-danger"><i class="fa fa-times-circle"></i></a>
+    </td>
+</tr>

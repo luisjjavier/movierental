@@ -13,7 +13,7 @@ namespace Webapp.Models
         public decimal TotalAmount  { get; set; }
         public DateTime PaymentDate { get; set; }
 
-        public ISet<Rental> Rentals { get; set; }
+        public List<Rental> Rentals { get; set; }
 
     }
 }
